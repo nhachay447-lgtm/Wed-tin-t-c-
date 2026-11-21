@@ -187,7 +187,6 @@ function render(){
   container.innerHTML = list.map(n=>{
     const d = new Date(n.created_at);
     const timeStr = d.toLocaleString('vi-VN');
-    // Rút gọn nội dung làm mô tả (khoảng 150 ký tự)
     const snippet = n.content.length > 160 ? n.content.substring(0, 160) + '...' : n.content;
 
     return `
@@ -200,8 +199,8 @@ function render(){
       <h3 class="list-title" onclick="openDetail(${n.id})">${esc(n.title)}</h3>
       <div class="list-snippet">${timeStr} — ${esc(snippet)}</div>
       <div class="list-actions">
-        <button onclick="openEditor(${n.id})">Sửa bài</button>
-        <button class="del" onclick="delPost(${n.id})">Xóa</button>
+        <button onclick="openEditor(${n.id})">✏️ Sửa bài (Admin)</button>
+        <button class="del" onclick="delPost(${n.id})">🗑️ Xóa (Admin)</button>
       </div>
     </div>
     `;
