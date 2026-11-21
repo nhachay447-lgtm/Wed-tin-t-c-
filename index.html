@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>TinTuc24h - Cập nhật tin tức mới nhất 24/7</title>
 <meta name="description" content="TinTuc24h - Chuyên trang tổng hợp và cập nhật tin tức Thời sự, Công nghệ, Kinh tế, Thể thao, Giải trí, Sức khỏe, Giáo dục mới nhất.">
-<meta name="author" content="Lê Kim Việt">
+<meta name="author" content="tin tức 24h">
 <link rel="canonical" href="https://tintuc24h-vn.netlify.app/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="TinTuc24h - Cập nhật tin tức mới nhất 24/7">
@@ -116,7 +116,7 @@ body.dark .detail h1{color:#8ab4f8}
 
 <footer>
   <p><strong>TinTuc24h</strong> — Chuyên trang tổng hợp và chia sẻ thông tin</p>
-  <p>Quản trị &amp; Biên tập: <strong>Lê Kim Việt</strong></p>
+  <p>Quản trị &amp; Biên tập: <strong>tin tức 24h</strong></p>
 </footer>
 
 <button class="fab" id="fabBtn" onclick="openEditor()" style="display:none">+</button>
@@ -378,7 +378,7 @@ function openDetail(id){
     ${p.image ? `<img src="${p.image}" onerror="this.style.display='none'">` : ''}
     <span class="tag">${p.category}</span>
     <h1>${esc(p.title)}</h1>
-    <div class="info"><span>🕒 ${d.toLocaleString('vi-VN')}</span><span>✍️ Biên tập: Lê Kim Việt</span></div>
+    <div class="info"><span>🕒 ${d.toLocaleString('vi-VN')}</span><span>✍️ Biên tập: tin tức 24h</span></div>
     <div class="body">${esc(p.content)}</div>
   `;
   document.getElementById('detailModal').classList.add('on');
