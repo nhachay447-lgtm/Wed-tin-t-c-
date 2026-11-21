@@ -89,7 +89,6 @@ body.dark .detail h1{color:#8ab4f8}
     <div class="logo">TinTuc<span>24h</span></div>
     <input class="search" id="q" placeholder="🔍 Tìm bài viết...">
     <button class="icon" id="themeBtn" onclick="toggleTheme()">🌙</button>
-    <!-- Nút Admin -->
     <button class="icon" id="adminBtn" onclick="toggleAdmin()" title="Quản trị viên">🔒</button>
     <button class="btn" id="newPostBtn" onclick="openEditor()" style="display:none">✍️ Đăng bài</button>
   </div>
@@ -111,7 +110,15 @@ body.dark .detail h1{color:#8ab4f8}
     <div class="fg"><label>Tiêu đề *</label><input type="text" id="fTitle" maxlength="200" placeholder="Nhập tiêu đề..."></div>
     <div class="fg"><label>Danh mục</label><select id="fCat"></select></div>
     <div class="fg"><label>Link ảnh minh họa (tùy chọn)</label><input type="text" id="fImg" placeholder="https://..."></div>
-    <div class="fg"><label>Nội dung *</label><textarea id="fContent" placeholder="Nhập nội dung..."></textarea></div>
+    
+    <div class="fg">
+      <label style="display:flex; justify-content:space-between; align-items:center;">
+        Nội dung * 
+        <button onclick="aiWrite()" style="background:#8b5cf6; color:#fff; padding:6px 12px; border-radius:20px; font-size:12px; font-weight:bold; border:none; box-shadow:0 2px 6px rgba(139,92,246,.4)">🪄 AI Viết Bài</button>
+      </label>
+      <textarea id="fContent" placeholder="Nhập nội dung hoặc để AI viết..."></textarea>
+    </div>
+    
     <div class="mact">
       <button class="cancel" onclick="closeEditor()">Hủy</button>
       <button class="save" id="saveBtn" onclick="savePost()">🚀 Đăng ngay</button>
@@ -130,6 +137,10 @@ body.dark .detail h1{color:#8ab4f8}
 <div class="toast" id="toast"></div>
 
 <script>
+// --- CHÌA KHÓA AI CỦA BẠN ---
+const GEMINI_API_KEY = "AQ.Ab8RN6LPzifjZ-7G3n50_hiyU_lL8F2xRY2PeSrr3Fv-JbNLkQ"; 
+
+// --- DATABASE ---
 const SUPABASE_URL = "https://mvadddkyhgmaarghmjrf.supabase.co"; 
 const SUPABASE_KEY = "sb_publishable_LdSwKw0rBKlEQgi1JJdlUQ_s_v4YcFh";
 
@@ -139,7 +150,6 @@ let newsData = [];
 let filterCat = 'all', query = '', editingId = null, viewId = null;
 
 // --- QUẢN LÝ ADMIN ---
-// Mật khẩu admin mặc định là: admin123
 let isAdmin = localStorage.getItem('tt_admin') === 'true';
 
 function toggleAdmin() {
@@ -152,7 +162,8 @@ function toggleAdmin() {
       toast('Đã đăng xuất Admin');
     }
   } else {
-    let pass = prompt('Nhập mật khẩu Admin:\n(Gợi ý: admin123)');
+    // Đã bỏ chữ gợi ý mật khẩu
+    let pass = prompt('Nhập mật khẩu Admin:');
     if (pass === 'admin123') {
       isAdmin = true;
       localStorage.setItem('tt_admin', 'true');
@@ -224,7 +235,6 @@ function render(){
     const timeStr = d.toLocaleString('vi-VN');
     const snippet = n.content.length > 160 ? n.content.substring(0, 160) + '...' : n.content;
 
-    // Chỉ hiện nút Sửa/Xóa nếu là Admin
     const adminActions = isAdmin ? `
       <div class="list-actions">
         <button onclick="openEditor(${n.id})">✏️ Sửa bài</button>
@@ -278,6 +288,40 @@ function closeEditor(){
   document.getElementById('editorModal').classList.remove('on');
   document.body.style.overflow = '';
   editingId = null;
+}
+
+// --- HÀM GỌI AI VIẾT BÀI ---
+async function aiWrite() {
+  const title = document.getElementById('fTitle').value.trim();
+  const cat = document.getElementById('fCat').value;
+  const contentBox = document.getElementById('fContent');
+
+  if(!title) return toast('Vui lòng nhập Tiêu đề trước để AI biết cần viết gì!', true);
+
+  contentBox.value = "⏳ AI đang suy nghĩ và viết bài, vui lòng đợi...";
+  contentBox.disabled = true;
+
+  const prompt = `Bạn là một phóng viên viết báo chuyên nghiệp. Hãy viết một bài báo bằng tiếng Việt với tiêu đề sau: "${title}". Chuyên mục: ${cat}. Bài viết cần có mở bài, thân bài và kết bài rõ ràng, độ dài khoảng 3-4 đoạn văn. Giọng văn khách quan, chuyên nghiệp.`;
+
+  try {
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+    });
+
+    const data = await response.json();
+    if(data.error) throw new Error(data.error.message);
+
+    const aiText = data.candidates[0].content.parts[0].text;
+    contentBox.value = aiText;
+    toast('AI đã viết xong bài!');
+  } catch (error) {
+    contentBox.value = "";
+    toast('Lỗi AI: ' + error.message, true);
+  } finally {
+    contentBox.disabled = false;
+  }
 }
 
 async function savePost(){
