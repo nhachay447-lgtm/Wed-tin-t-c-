@@ -4,7 +4,13 @@
 <meta name="google-site-verification" content="PTLdtpejB4Vo4oVmI0pxF3O1HMfiBegNPSqCEu5hv7Q" />
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>TinTuc24h - Bản Có Database</title>
+<title>TinTuc24h - Cập nhật tin tức mới nhất 24/7</title>
+<meta name="description" content="TinTuc24h - Chuyên trang tổng hợp và cập nhật tin tức Thời sự, Công nghệ, Kinh tế, Thể thao, Giải trí, Sức khỏe, Giáo dục mới nhất.">
+<link rel="canonical" href="https://tintuc24h-vn.netlify.app/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="TinTuc24h - Cập nhật tin tức mới nhất 24/7">
+<meta property="og:description" content="Chuyên trang cập nhật tin tức Thời sự, Công nghệ, Kinh tế, Thể thao, Giải trí mới nhất.">
+<meta property="og:url" content="https://tintuc24h-vn.netlify.app/">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,-apple-system,sans-serif}
@@ -163,7 +169,6 @@ function toggleAdmin() {
       toast('Đã đăng xuất Admin');
     }
   } else {
-    // Đã bỏ chữ gợi ý mật khẩu
     let pass = prompt('Nhập mật khẩu Admin:');
     if (pass === 'admin123') {
       isAdmin = true;
@@ -248,7 +253,7 @@ function render(){
       <div class="list-source">
         <div class="source-icon">T</div>
         <span class="source-name">TinTuc24h - ${n.category}</span>
-        <span class="source-url">tintuc24h-com.netlify.app</span>
+        <span class="source-url">tintuc24h-vn.netlify.app</span>
       </div>
       <h3 class="list-title" onclick="openDetail(${n.id})">${esc(n.title)}</h3>
       <div class="list-snippet">${timeStr} — ${esc(snippet)}</div>
