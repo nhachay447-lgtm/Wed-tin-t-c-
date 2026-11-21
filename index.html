@@ -89,7 +89,9 @@ body.dark .detail h1{color:#8ab4f8}
     <div class="logo">TinTuc<span>24h</span></div>
     <input class="search" id="q" placeholder="🔍 Tìm bài viết...">
     <button class="icon" id="themeBtn" onclick="toggleTheme()">🌙</button>
-    <button class="btn" onclick="openEditor()">✍️ Đăng bài</button>
+    <!-- Nút Admin -->
+    <button class="icon" id="adminBtn" onclick="toggleAdmin()" title="Quản trị viên">🔒</button>
+    <button class="btn" id="newPostBtn" onclick="openEditor()" style="display:none">✍️ Đăng bài</button>
   </div>
 </header>
 
@@ -99,7 +101,7 @@ body.dark .detail h1{color:#8ab4f8}
   </div>
 </div>
 
-<button class="fab" onclick="openEditor()">+</button>
+<button class="fab" id="fabBtn" onclick="openEditor()" style="display:none">+</button>
 
 <!-- Editor Modal -->
 <div class="modal" id="editorModal">
@@ -135,6 +137,39 @@ const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 const CATS = ['Thời sự','Công nghệ','Kinh tế','Thể thao','Giải trí','Sức khỏe','Giáo dục'];
 let newsData = [];
 let filterCat = 'all', query = '', editingId = null, viewId = null;
+
+// --- QUẢN LÝ ADMIN ---
+// Mật khẩu admin mặc định là: admin123
+let isAdmin = localStorage.getItem('tt_admin') === 'true';
+
+function toggleAdmin() {
+  if (isAdmin) {
+    if(confirm('Bạn có muốn đăng xuất khỏi quyền Admin?')) {
+      isAdmin = false;
+      localStorage.removeItem('tt_admin');
+      updateAdminUI();
+      render();
+      toast('Đã đăng xuất Admin');
+    }
+  } else {
+    let pass = prompt('Nhập mật khẩu Admin:\n(Gợi ý: admin123)');
+    if (pass === 'admin123') {
+      isAdmin = true;
+      localStorage.setItem('tt_admin', 'true');
+      updateAdminUI();
+      render();
+      toast('Đã đăng nhập Admin!');
+    } else if (pass !== null) {
+      toast('Sai mật khẩu!', true);
+    }
+  }
+}
+
+function updateAdminUI() {
+  document.getElementById('adminBtn').textContent = isAdmin ? '🔓' : '🔒';
+  document.getElementById('newPostBtn').style.display = isAdmin ? 'block' : 'none';
+  document.getElementById('fabBtn').style.display = isAdmin ? 'flex' : 'none';
+}
 
 function esc(s){ return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 
@@ -189,19 +224,24 @@ function render(){
     const timeStr = d.toLocaleString('vi-VN');
     const snippet = n.content.length > 160 ? n.content.substring(0, 160) + '...' : n.content;
 
+    // Chỉ hiện nút Sửa/Xóa nếu là Admin
+    const adminActions = isAdmin ? `
+      <div class="list-actions">
+        <button onclick="openEditor(${n.id})">✏️ Sửa bài</button>
+        <button class="del" onclick="delPost(${n.id})">🗑️ Xóa</button>
+      </div>
+    ` : '';
+
     return `
     <div class="list-item">
       <div class="list-source">
         <div class="source-icon">T</div>
         <span class="source-name">TinTuc24h - ${n.category}</span>
-        <span class="source-url">tintuc24h-vn.netlify.app</span>
+        <span class="source-url">tintuc24h-com.netlify.app</span>
       </div>
       <h3 class="list-title" onclick="openDetail(${n.id})">${esc(n.title)}</h3>
       <div class="list-snippet">${timeStr} — ${esc(snippet)}</div>
-      <div class="list-actions">
-        <button onclick="openEditor(${n.id})">✏️ Sửa bài (Admin)</button>
-        <button class="del" onclick="delPost(${n.id})">🗑️ Xóa (Admin)</button>
-      </div>
+      ${adminActions}
     </div>
     `;
   }).join('');
@@ -210,6 +250,7 @@ function render(){
 document.getElementById('q').addEventListener('input', e=>{ query=e.target.value.trim(); render(); });
 
 function openEditor(id){
+  if(!isAdmin) return toast('Bạn cần đăng nhập Admin!', true);
   editingId = id||null;
   document.getElementById('fCat').innerHTML = CATS.map(c=>`<option>${c}</option>`).join('');
   
@@ -289,6 +330,7 @@ function closeDetail(){
 }
 
 async function delPost(id){
+  if(!isAdmin) return toast('Bạn cần đăng nhập Admin!', true);
   const p = newsData.find(n=>n.id===id);
   if(!p) return;
   if(!confirm(`Xóa bài:\n"${p.title}"?`)) return;
@@ -315,6 +357,7 @@ document.addEventListener('keydown', e=>{
   }
 });
 
+updateAdminUI();
 fetchNews();
 </script>
 </body>
