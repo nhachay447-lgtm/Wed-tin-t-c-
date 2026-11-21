@@ -157,7 +157,7 @@ body.dark .detail h1{color:#8ab4f8}
 
 <script>
 // --- CHÌA KHÓA AI CỦA BẠN ---
-const GEMINI_API_KEY = "AQ.Ab8RN6LPzifjZ-7G3n50_hiyU_lL8F2xRY2PeSrr3Fv-JbNLkQ"; 
+const GEMINI_API_KEY = "AQ.Ab8RN6INXS06n51SyfQIGIsRzH2EPEmZQGt2V25DO5VoQLvXww"; 
 
 // --- DATABASE ---
 const SUPABASE_URL = "https://mvadddkyhgmaarghmjrf.supabase.co"; 
@@ -322,9 +322,12 @@ async function aiWrite() {
   const prompt = `Bạn là một phóng viên viết báo chuyên nghiệp. Hãy viết một bài báo bằng tiếng Việt với tiêu đề sau: "${title}". Chuyên mục: ${cat}. Bài viết cần có mở bài, thân bài và kết bài rõ ràng, độ dài khoảng 3-4 đoạn văn. Giọng văn khách quan, chuyên nghiệp.`;
 
   try {
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+    const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-goog-api-key": GEMINI_API_KEY
+      },
       body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
     });
 
