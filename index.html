@@ -2,232 +2,320 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Đăng bài - TinTuc24h</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TinTuc24h - Bản Có Database</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-  * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',Tahoma,sans-serif; }
-  body { background:#f4f6f8; color:#222; }
-
-  header {
-    background:linear-gradient(135deg,#e63946,#c1121f);
-    color:#fff; padding:14px 0;
-    box-shadow:0 2px 12px rgba(0,0,0,.15);
-  }
-  .container { max-width:900px; margin:0 auto; padding:0 16px; }
-  .header-top { display:flex; align-items:center; justify-content:space-between; }
-  .logo { font-size:22px; font-weight:800; cursor:pointer; }
-  .logo span { color:#ffe066; }
-  .back-btn {
-    background:rgba(255,255,255,.2); color:#fff; border:none;
-    padding:8px 16px; border-radius:20px; cursor:pointer; font-size:14px; font-weight:600;
-  }
-  .back-btn:hover { background:rgba(255,255,255,.35); }
-
-  main { padding:30px 0; }
-  .form-card {
-    background:#fff; border-radius:16px; padding:30px;
-    box-shadow:0 4px 20px rgba(0,0,0,.08);
-  }
-  .form-card h1 { font-size:24px; margin-bottom:6px; color:#c1121f; }
-  .form-card p.sub { color:#888; font-size:14px; margin-bottom:24px; }
-
-  .form-group { margin-bottom:18px; }
-  label { display:block; font-weight:600; margin-bottom:8px; font-size:14px; }
-  label .req { color:#e63946; }
-  input[type="text"], select, textarea {
-    width:100%; padding:12px 14px; border:2px solid #e5e7eb;
-    border-radius:10px; font-size:14px; outline:none; transition:.2s;
-    font-family:inherit;
-  }
-  input:focus, select:focus, textarea:focus { border-color:#e63946; }
-  textarea { resize:vertical; min-height:220px; line-height:1.6; }
-
-  .img-preview {
-    margin-top:10px; border-radius:10px; overflow:hidden;
-    max-height:200px; display:none;
-  }
-  .img-preview img { width:100%; height:200px; object-fit:cover; }
-
-  .hint { font-size:12px; color:#888; margin-top:6px; }
-
-  .form-actions { display:flex; gap:12px; margin-top:26px; }
-  .btn {
-    padding:13px 24px; border:none; border-radius:10px;
-    font-weight:700; cursor:pointer; font-size:15px; transition:.2s;
-  }
-  .btn-primary { background:linear-gradient(135deg,#e63946,#c1121f); color:#fff; flex:2; }
-  .btn-primary:hover { transform:translateY(-2px); box-shadow:0 8px 20px rgba(230,57,70,.3); }
-  .btn-cancel { background:#e5e7eb; color:#444; flex:1; }
-  .btn-cancel:hover { background:#d1d5db; }
-
-  .toast {
-    position:fixed; top:20px; right:20px; background:#10b981; color:#fff;
-    padding:14px 22px; border-radius:10px; font-weight:600;
-    transform:translateX(400px); transition:.3s; z-index:1000;
-    box-shadow:0 4px 16px rgba(0,0,0,.15);
-  }
-  .toast.show { transform:translateX(0); }
-  .toast.error { background:#e63946; }
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,sans-serif}
+body{background:#f4f6f8;color:#222;transition:.3s}
+body.dark{background:#0f172a;color:#f1f5f9}
+header{background:linear-gradient(135deg,#e63946,#c1121f);color:#fff;padding:12px;position:sticky;top:0;z-index:10}
+.row{max-width:1100px;margin:0 auto;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.logo{font-size:20px;font-weight:800}
+.logo span{color:#ffe066}
+.search{flex:1;min-width:150px;padding:9px 14px;border:none;border-radius:20px;font-size:14px;outline:none}
+button{cursor:pointer;border:none;font-family:inherit}
+.btn{background:#ffe066;color:#c1121f;padding:9px 16px;border-radius:20px;font-weight:700;font-size:13px}
+.btn:hover{opacity:.9}
+.icon{background:rgba(255,255,255,.2);color:#fff;width:36px;height:36px;border-radius:50%;font-size:16px}
+.wrap{max-width:1100px;margin:0 auto;padding:16px}
+.pills{display:flex;gap:6px;overflow-x:auto;padding:12px 0}
+.pills::-webkit-scrollbar{height:0}
+.pill{background:#fff;padding:6px 14px;border-radius:16px;font-size:13px;font-weight:600;white-space:nowrap;color:#444;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.pill.on{background:#e63946;color:#fff}
+body.dark .pill{background:#1e293b;color:#cbd5e1}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);display:flex;flex-direction:column;transition:.2s}
+body.dark .card{background:#1e293b}
+.card:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(0,0,0,.12)}
+.card img{width:100%;height:160px;object-fit:cover;cursor:pointer;background:#eee}
+.cbody{padding:12px;flex:1;display:flex;flex-direction:column;gap:8px}
+.cat{font-size:11px;color:#e63946;font-weight:800;text-transform:uppercase}
+.card h3{font-size:14px;line-height:1.4;cursor:pointer;flex:1}
+.card h3:hover{color:#e63946}
+.meta{font-size:11px;color:#888;display:flex;gap:8px;flex-wrap:wrap}
+.acts{display:flex;gap:6px}
+.acts button{flex:1;padding:6px;border-radius:6px;font-size:12px;font-weight:700}
+.e{background:#fff3bf;color:#9c7c00}.d{background:#ffe3e3;color:#c92a2a}
+.empty{grid-column:1/-1;text-align:center;padding:50px 20px;background:#fff;border-radius:12px;color:#888}
+body.dark .empty{background:#1e293b}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;padding:16px;z-index:100;backdrop-filter:blur(3px)}
+.modal.on{display:flex}
+.mc{background:#fff;color:#222;border-radius:14px;width:100%;max-width:640px;max-height:92vh;overflow-y:auto;padding:22px;position:relative}
+body.dark .mc{background:#1e293b;color:#f1f5f9}
+.mc h2{color:#e63946;margin-bottom:14px;font-size:20px}
+.x{position:absolute;top:10px;right:10px;background:#f1f1f1;color:#666;width:32px;height:32px;border-radius:50%;font-size:20px}
+body.dark .x{background:#334155;color:#cbd5e1}
+.fg{margin-bottom:12px}
+label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+input[type=text],select,textarea{width:100%;padding:10px 12px;border:2px solid #e2e8f0;border-radius:8px;font-size:14px;outline:none;font-family:inherit;background:#f8f9fa;color:inherit}
+body.dark input,body.dark select,body.dark textarea{background:#0f172a;border-color:#334155}
+input:focus,select:focus,textarea:focus{border-color:#e63946}
+textarea{resize:vertical;min-height:150px;line-height:1.5}
+.mact{display:flex;gap:8px;margin-top:16px}
+.mact button{flex:1;padding:12px;border-radius:8px;font-weight:700;font-size:14px}
+.save{background:linear-gradient(135deg,#e63946,#c1121f);color:#fff;flex:2}
+.cancel{background:#e2e8f0;color:#444}
+body.dark .cancel{background:#334155;color:#cbd5e1}
+.detail img{width:100%;border-radius:10px;margin-bottom:12px;max-height:300px;object-fit:cover}
+.detail .tag{display:inline-block;background:#e63946;color:#fff;padding:3px 10px;border-radius:5px;font-size:11px;font-weight:700;margin-bottom:8px}
+.detail h1{font-size:22px;line-height:1.35;margin-bottom:10px}
+.detail .info{font-size:12px;color:#888;display:flex;gap:12px;flex-wrap:wrap;padding-bottom:12px;margin-bottom:14px;border-bottom:2px solid #f1f1f1}
+body.dark .detail .info{border-color:#334155}
+.detail .body{font-size:15px;line-height:1.7;white-space:pre-wrap;word-break:break-word}
+.toast{position:fixed;bottom:20px;left:50%;transform:translate(-50%,100px);background:#10b981;color:#fff;padding:12px 20px;border-radius:10px;font-weight:600;font-size:13px;z-index:200;transition:.3s;opacity:0}
+.toast.on{transform:translate(-50%,0);opacity:1}
+.toast.err{background:#ef4444}
+.fab{display:none;position:fixed;bottom:20px;right:20px;width:56px;height:56px;border-radius:50%;background:#e63946;color:#fff;font-size:28px;z-index:50;box-shadow:0 6px 20px rgba(230,57,70,.5)}
+.loading{text-align:center;padding:40px;font-size:16px;color:#888;grid-column:1/-1}
+@media(max-width:600px){
+  .row .btn{display:none}
+  .fab{display:flex;align-items:center;justify-content:center}
+  .modal{padding:0}
+  .mc{border-radius:0;max-height:100vh;min-height:100vh;padding:18px}
+  .detail h1{font-size:18px}
+}
 </style>
 </head>
 <body>
 
 <header>
-  <div class="container">
-    <div class="header-top">
-      <div class="logo" onclick="location.href='index.html'">TinTuc<span>24h</span></div>
-      <button class="back-btn" onclick="location.href='index.html'">← Về trang chủ</button>
-    </div>
+  <div class="row">
+    <div class="logo">TinTuc<span>24h</span></div>
+    <input class="search" id="q" placeholder="🔍 Tìm bài...">
+    <button class="icon" id="themeBtn" onclick="toggleTheme()">🌙</button>
+    <button class="btn" onclick="openEditor()">✍️ Đăng bài</button>
   </div>
 </header>
 
-<main class="container">
-  <div class="form-card">
-    <h1 id="formTitle">✍️ Viết bài mới</h1>
-    <p class="sub">Điền thông tin bên dưới để đăng bài viết lên trang chủ</p>
+<div class="wrap">
+  <div class="pills" id="pills"></div>
+  <div class="grid" id="grid">
+     <div class="loading">Đang tải dữ liệu từ Server...</div>
+  </div>
+</div>
 
-    <div class="form-group">
-      <label>Tiêu đề bài viết <span class="req">*</span></label>
-      <input type="text" id="title" placeholder="VD: Bão số 5 đổ bộ vào miền Trung...">
-    </div>
+<button class="fab" onclick="openEditor()">+</button>
 
-    <div class="form-group">
-      <label>Danh mục <span class="req">*</span></label>
-      <select id="category">
-        <option value="Thời sự">Thời sự</option>
-        <option value="Công nghệ">Công nghệ</option>
-        <option value="Kinh tế">Kinh tế</option>
-        <option value="Thể thao">Thể thao</option>
-        <option value="Giải trí">Giải trí</option>
-        <option value="Sức khỏe">Sức khỏe</option>
-        <option value="Giáo dục">Giáo dục</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label>Người viết</label>
-      <input type="text" id="author" placeholder="Tên của bạn..." value="Admin">
-    </div>
-
-    <div class="form-group">
-      <label>Link ảnh minh họa (tùy chọn)</label>
-      <input type="text" id="imageUrl" placeholder="https://...">
-      <div class="hint">💡 Để trống sẽ dùng ảnh ngẫu nhiên. Hoặc chọn ảnh từ máy bên dưới.</div>
-      <input type="file" id="imageFile" accept="image/*" style="margin-top:10px;">
-      <div class="img-preview" id="imgPreview"><img id="previewImg"></div>
-    </div>
-
-    <div class="form-group">
-      <label>Nội dung bài viết <span class="req">*</span></label>
-      <textarea id="content" placeholder="Nhập nội dung bài viết ở đây..."></textarea>
-    </div>
-
-    <div class="form-actions">
-      <button class="btn btn-cancel" onclick="location.href='index.html'">Hủy</button>
-      <button class="btn btn-primary" onclick="savePost()">🚀 Đăng bài</button>
+<!-- Editor Modal -->
+<div class="modal" id="editorModal">
+  <div class="mc">
+    <button class="x" onclick="closeEditor()">×</button>
+    <h2 id="eTitle">✍️ Đăng bài mới</h2>
+    <div class="fg"><label>Tiêu đề *</label><input type="text" id="fTitle" maxlength="200" placeholder="Nhập tiêu đề..."></div>
+    <div class="fg"><label>Danh mục</label><select id="fCat"></select></div>
+    <div class="fg"><label>Link ảnh minh họa (tùy chọn)</label><input type="text" id="fImg" placeholder="https://..."></div>
+    <div class="fg"><label>Nội dung *</label><textarea id="fContent" placeholder="Nhập nội dung..."></textarea></div>
+    <div class="mact">
+      <button class="cancel" onclick="closeEditor()">Hủy</button>
+      <button class="save" id="saveBtn" onclick="savePost()">🚀 Đăng ngay</button>
     </div>
   </div>
-</main>
+</div>
+
+<!-- Detail Modal -->
+<div class="modal" id="detailModal">
+  <div class="mc">
+    <button class="x" onclick="closeDetail()">×</button>
+    <div id="detailBox" class="detail"></div>
+  </div>
+</div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-  const urlParams = new URLSearchParams(location.search);
-  const editId = urlParams.get('id');
-  let editingPost = null;
+const SUPABASE_URL = "https://mvadddkyhgmaarghmjrf.supabase.co"; 
+const SUPABASE_KEY = "sb_publishable_LdSwKw0rBKlEQgi1JJdlUQ_s_v4YcFh";
 
-  // Nếu đang sửa
-  if (editId) {
-    const news = JSON.parse(localStorage.getItem('news_list') || '[]');
-    editingPost = news.find(n => n.id == editId);
-    if (editingPost) {
-      document.getElementById('formTitle').textContent = '✏️ Sửa bài viết';
-      document.getElementById('title').value = editingPost.title;
-      document.getElementById('category').value = editingPost.cat;
-      document.getElementById('author').value = editingPost.author || 'Admin';
-      document.getElementById('content').value = editingPost.content || '';
-      if (editingPost.img) {
-        document.getElementById('imageUrl').value = editingPost.img;
-        document.getElementById('previewImg').src = editingPost.img;
-        document.getElementById('imgPreview').style.display = 'block';
-      }
-    }
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+const CATS = ['Thời sự','Công nghệ','Kinh tế','Thể thao','Giải trí','Sức khỏe','Giáo dục'];
+let newsData = [];
+let filterCat = 'all', query = '', editingId = null, viewId = null;
+
+function esc(s){ return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+let toastT;
+function toast(msg, err){
+  const t = document.getElementById('toast');
+  t.textContent = (err?'⚠️ ':'✅ ')+msg;
+  t.className = 'toast on'+(err?' err':'');
+  clearTimeout(toastT);
+  toastT = setTimeout(()=>t.className='toast'+(err?' err':''), 2500);
+}
+
+if(localStorage.getItem('tt_theme')==='dark') document.body.classList.add('dark');
+function toggleTheme(){
+  document.body.classList.toggle('dark');
+  localStorage.setItem('tt_theme', document.body.classList.contains('dark')?'dark':'light');
+  updateThemeBtn();
+}
+function updateThemeBtn(){ document.getElementById('themeBtn').textContent = document.body.classList.contains('dark')?'☀️':'🌙'; }
+updateThemeBtn();
+
+async function fetchNews() {
+  document.getElementById('grid').innerHTML = `<div class="loading">Đang tải dữ liệu...</div>`;
+  const { data, error } = await supabaseClient
+    .from('news')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    console.error(error);
+    toast('Lỗi tải dữ liệu: ' + error.message, true);
+    document.getElementById('grid').innerHTML = `<div class="empty">Lỗi kết nối Server. Kiểm tra lại API Key.</div>`;
+    return;
+  }
+  newsData = data;
+  render();
+}
+
+function renderPills(){
+  document.getElementById('pills').innerHTML = ['all',...CATS].map(c=>
+    `<button class="pill ${filterCat===c?'on':''}" onclick="setFilter('${c}')">${c==='all'?'🏠 Tất cả':c}</button>`
+  ).join('');
+}
+
+function render(){
+  let list = newsData;
+  if(filterCat!=='all') list = list.filter(n=>n.category===filterCat);
+  if(query){ const q=query.toLowerCase(); list = list.filter(n=>n.title.toLowerCase().includes(q)||(n.content||'').toLowerCase().includes(q)); }
+
+  const grid = document.getElementById('grid');
+  if(!list.length){
+    grid.innerHTML = `<div class="empty"><div style="font-size:40px">📭</div><h3>Chưa có bài viết nào</h3></div>`;
+    return;
+  }
+  grid.innerHTML = list.map(n=>{
+    const d = new Date(n.created_at);
+    const timeStr = d.toLocaleString('vi-VN');
+    return `
+    <div class="card">
+      <img src="${n.image||'https://picsum.photos/seed/'+n.id+'/600/400'}" onclick="openDetail(${n.id})" onerror="this.src='https://picsum.photos/seed/e${n.id}/600/400'">
+      <div class="cbody">
+        <div class="cat">${n.category}</div>
+        <h3 onclick="openDetail(${n.id})">${esc(n.title)}</h3>
+        <div class="meta"><span>🕒 ${timeStr}</span></div>
+        <div class="acts">
+          <button class="e" onclick="openEditor(${n.id})">✏️ Sửa</button>
+          <button class="d" onclick="delPost(${n.id})">🗑 Xóa</button>
+        </div>
+      </div>
+    </div>
+  `}).join('');
+}
+
+function setFilter(c){ filterCat=c; renderPills(); render(); }
+document.getElementById('q').addEventListener('input', e=>{ query=e.target.value.trim(); render(); });
+
+function openEditor(id){
+  editingId = id||null;
+  document.getElementById('fCat').innerHTML = CATS.map(c=>`<option>${c}</option>`).join('');
+  
+  if(id){
+    const p = newsData.find(n=>n.id===id);
+    document.getElementById('eTitle').textContent = '✏️ Sửa bài';
+    document.getElementById('saveBtn').textContent = '💾 Lưu thay đổi';
+    document.getElementById('fTitle').value = p.title;
+    document.getElementById('fCat').value = p.category;
+    document.getElementById('fContent').value = p.content;
+    document.getElementById('fImg').value = p.image||'';
+  } else {
+    document.getElementById('eTitle').textContent = '✍️ Đăng bài mới';
+    document.getElementById('saveBtn').textContent = '🚀 Đăng ngay';
+    document.getElementById('fTitle').value = '';
+    document.getElementById('fContent').value = '';
+    document.getElementById('fImg').value = '';
+  }
+  document.getElementById('editorModal').classList.add('on');
+  document.body.style.overflow = 'hidden';
+  setTimeout(()=>document.getElementById('fTitle').focus(), 100);
+}
+
+function closeEditor(){
+  document.getElementById('editorModal').classList.remove('on');
+  document.body.style.overflow = '';
+  editingId = null;
+}
+
+async function savePost(){
+  const title = document.getElementById('fTitle').value.trim();
+  const category = document.getElementById('fCat').value;
+  const content = document.getElementById('fContent').value.trim();
+  const image = document.getElementById('fImg').value.trim();
+
+  if(!title) return toast('Nhập tiêu đề!', true);
+  if(!content) return toast('Nhập nội dung!', true);
+
+  document.getElementById('saveBtn').textContent = '⏳ Đang lưu...';
+  document.getElementById('saveBtn').disabled = true;
+
+  if(editingId){
+    const { error } = await supabaseClient.from('news').update({ title, category, content, image }).eq('id', editingId);
+    if(error) toast('Lỗi: '+error.message, true); else toast('Đã lưu thay đổi!');
+  } else {
+    const { error } = await supabaseClient.from('news').insert([{ title, category, content, image }]);
+    if(error) toast('Lỗi: '+error.message, true); else toast('Đăng thành công!');
   }
 
-  // Preview ảnh từ URL
-  document.getElementById('imageUrl').addEventListener('input', e => {
-    const url = e.target.value.trim();
-    const preview = document.getElementById('imgPreview');
-    if (url) {
-      document.getElementById('previewImg').src = url;
-      preview.style.display = 'block';
-    } else {
-      preview.style.display = 'none';
+  document.getElementById('saveBtn').textContent = editingId ? '💾 Lưu thay đổi' : '🚀 Đăng ngay';
+  document.getElementById('saveBtn').disabled = false;
+  
+  closeEditor();
+  fetchNews();
+}
+
+function openDetail(id){
+  const p = newsData.find(n=>n.id===id);
+  if(!p) return;
+  viewId = id;
+  const d = new Date(p.created_at);
+  document.getElementById('detailBox').innerHTML = `
+    <img src="${p.image||'https://picsum.photos/seed/'+p.id+'/800/500'}" onerror="this.src='https://picsum.photos/seed/e${p.id}/800/500'">
+    <span class="tag">${p.category}</span>
+    <h1>${esc(p.title)}</h1>
+    <div class="info"><span>🕒 ${d.toLocaleString('vi-VN')}</span></div>
+    <div class="body">${esc(p.content)}</div>
+  `;
+  document.getElementById('detailModal').classList.add('on');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeDetail(){
+  document.getElementById('detailModal').classList.remove('on');
+  document.body.style.overflow = '';
+  viewId = null;
+}
+
+async function delPost(id){
+  const p = newsData.find(n=>n.id===id);
+  if(!p) return;
+  if(!confirm(`Xóa bài:\n"${p.title}"?`)) return;
+  
+  const { error } = await supabaseClient.from('news').delete().eq('id', id);
+  if(error) return toast('Lỗi khi xóa: '+error.message, true);
+  
+  toast('Đã xóa bài viết');
+  if(viewId===id) closeDetail();
+  fetchNews();
+}
+
+['editorModal','detailModal'].forEach(id=>{
+  document.getElementById(id).addEventListener('click', e=>{
+    if(e.target.id===id){
+      if(id==='editorModal') closeEditor(); else closeDetail();
     }
   });
-
-  // Upload ảnh từ máy → chuyển thành base64
-  let base64Image = null;
-  document.getElementById('imageFile').addEventListener('change', e => {
-    const file = e.target.files[0];
-    if (!file) return;
-    if (file.size > 2 * 1024 * 1024) {
-      alert('Ảnh quá lớn! Vui lòng chọn ảnh dưới 2MB.');
-      return;
-    }
-    const reader = new FileReader();
-    reader.onload = ev => {
-      base64Image = ev.target.result;
-      document.getElementById('previewImg').src = base64Image;
-      document.getElementById('imgPreview').style.display = 'block';
-      document.getElementById('imageUrl').value = '';
-    };
-    reader.readAsDataURL(file);
-  });
-
-  // Lưu bài
-  function savePost() {
-    const title = document.getElementById('title').value.trim();
-    const cat = document.getElementById('category').value;
-    const author = document.getElementById('author').value.trim() || 'Ẩn danh';
-    const content = document.getElementById('content').value.trim();
-    const imgUrl = document.getElementById('imageUrl').value.trim();
-
-    if (!title) return showToast('Vui lòng nhập tiêu đề!', true);
-    if (!content) return showToast('Vui lòng nhập nội dung!', true);
-
-    let news = JSON.parse(localStorage.getItem('news_list') || '[]');
-    const img = base64Image || imgUrl || '';
-
-    if (editingPost) {
-      // Cập nhật
-      const idx = news.findIndex(n => n.id == editingPost.id);
-      news[idx] = { ...news[idx], title, cat, author, content, img: img || news[idx].img };
-      localStorage.setItem('news_list', JSON.stringify(news));
-      showToast('Cập nhật thành công!');
-    } else {
-      // Tạo mới
-      const newPost = {
-        id: Date.now(),
-        title, cat, author, content,
-        img: img || `https://picsum.photos/seed/${Date.now()}/600/400`,
-        time: 'Vừa xong',
-        views: 0
-      };
-      news.unshift(newPost);
-      localStorage.setItem('news_list', JSON.stringify(news));
-      showToast('Đăng bài thành công!');
-    }
-
-    setTimeout(() => location.href = 'index.html', 1200);
+});
+document.addEventListener('keydown', e=>{
+  if(e.key==='Escape'){
+    if(document.getElementById('editorModal').classList.contains('on')) closeEditor();
+    else if(document.getElementById('detailModal').classList.contains('on')) closeDetail();
   }
+});
 
-  function showToast(msg, isError = false) {
-    const t = document.getElementById('toast');
-    t.textContent = (isError ? '⚠️ ' : '✅ ') + msg;
-    t.className = 'toast show' + (isError ? ' error' : '');
-    setTimeout(() => t.className = 'toast' + (isError ? ' error' : ''), 2500);
-  }
+renderPills();
+fetchNews();
 </script>
 </body>
-  </html>
+</html>
