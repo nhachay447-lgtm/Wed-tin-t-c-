@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>TinTuc24h - Cập nhật tin tức mới nhất 24/7</title>
 <meta name="description" content="TinTuc24h - Chuyên trang tổng hợp và cập nhật tin tức Thời sự, Công nghệ, Kinh tế, Thể thao, Giải trí, Sức khỏe, Giáo dục mới nhất.">
+<meta name="author" content="Lê Kim Việt">
 <link rel="canonical" href="https://tintuc24h-vn.netlify.app/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="TinTuc24h - Cập nhật tin tức mới nhất 24/7">
@@ -49,6 +50,12 @@ body.dark .list-actions .del{color:#f87171}
 
 .empty{text-align:center;padding:50px 20px;color:#888}
 .loading{text-align:center;padding:40px;font-size:16px;color:#888}
+
+/* Footer */
+footer{max-width:800px;margin:24px auto 20px;padding:18px 16px;border-top:1px solid #e2e8f0;text-align:center;font-size:13px;color:#64748b;line-height:1.6}
+body.dark footer{border-color:#334155;color:#94a3b8}
+footer strong{color:#202124}
+body.dark footer strong{color:#f1f5f9}
 
 /* Modal & Form */
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;padding:16px;z-index:100;backdrop-filter:blur(2px)}
@@ -106,6 +113,11 @@ body.dark .detail h1{color:#8ab4f8}
      <div class="loading">Đang tải dữ liệu...</div>
   </div>
 </div>
+
+<footer>
+  <p><strong>TinTuc24h</strong> — Chuyên trang tổng hợp và chia sẻ thông tin</p>
+  <p>Quản trị &amp; Biên tập: <strong>Lê Kim Việt</strong></p>
+</footer>
 
 <button class="fab" id="fabBtn" onclick="openEditor()" style="display:none">+</button>
 
@@ -366,7 +378,7 @@ function openDetail(id){
     ${p.image ? `<img src="${p.image}" onerror="this.style.display='none'">` : ''}
     <span class="tag">${p.category}</span>
     <h1>${esc(p.title)}</h1>
-    <div class="info"><span>🕒 ${d.toLocaleString('vi-VN')}</span></div>
+    <div class="info"><span>🕒 ${d.toLocaleString('vi-VN')}</span><span>✍️ Biên tập: Lê Kim Việt</span></div>
     <div class="body">${esc(p.content)}</div>
   `;
   document.getElementById('detailModal').classList.add('on');
