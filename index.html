@@ -32,9 +32,8 @@ body.dark{
   --border:#334155;
 }
 *{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,-apple-system,sans-serif}
-body{background:var(--bg);color:var(--text);padding-bottom:84px;transition:.25s}
+body{background:var(--bg);color:var(--text);padding-bottom:84px;transition:.2s}
 
-/* Header giống mẫu tạp chí */
 header{background:var(--card);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:20;box-shadow:0 2px 8px rgba(0,0,0,.04)}
 .h-inner{max-width:760px;margin:0 auto;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px}
 .brand{display:flex;align-items:center;gap:10px;cursor:pointer}
@@ -45,16 +44,14 @@ header{background:var(--card);border-bottom:1px solid var(--border);position:sti
 .brand-text p{font-size:9px;font-weight:700;color:var(--accent);letter-spacing:.6px;text-transform:uppercase;margin-top:1px}
 .h-actions{display:flex;align-items:center;gap:8px}
 .circle-btn{width:36px;height:36px;border-radius:50%;border:1px solid var(--border);background:var(--card);color:var(--text);display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer}
+.circle-btn.active{border-color:var(--accent);background:#fef3c7;color:var(--navy)}
 
-/* Thanh tìm kiếm trượt */
 .search-bar{max-width:760px;margin:0 auto;padding:0 14px 10px;display:none}
 .search-bar.on{display:block}
 .search-bar input{width:100%;padding:10px 14px;border-radius:20px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:14px;outline:none}
 
-/* Khung nội dung chính */
 .wrap{max-width:760px;margin:0 auto;padding:14px}
 
-/* Khối tin điểm (Bullet box) */
 .highlight-box{background:var(--card);border-radius:14px;padding:14px 16px;box-shadow:0 2px 10px rgba(0,0,0,.04);margin-bottom:20px;border:1px solid var(--border)}
 .hl-item{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px dashed var(--border);cursor:pointer}
 .hl-item:last-child{border-bottom:none;padding-bottom:0}
@@ -63,15 +60,13 @@ header{background:var(--card);border-bottom:1px solid var(--border);position:sti
 .hl-title{font-size:14px;font-weight:600;line-height:1.4;color:var(--text)}
 .hl-title:hover{color:var(--accent)}
 
-/* Tiêu đề chuyên mục | TIN MỚI */
 .sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
 .sec-title{display:flex;align-items:center;gap:8px;font-size:16px;font-weight:800;text-transform:uppercase;color:var(--text)}
 .sec-title::before{content:"";width:4px;height:18px;background:var(--accent);border-radius:2px}
 .sec-more{font-size:12px;font-weight:700;color:var(--accent);background:none;border:none;cursor:pointer}
 
-/* Danh sách thẻ bài viết có ảnh thumbnail bên trái */
 .news-list{display:flex;flex-direction:column;gap:12px}
-.news-card{background:var(--card);border-radius:14px;padding:10px;display:flex;gap:12px;align-items:center;box-shadow:0 2px 8px rgba(0,0,0,.04);border:1px solid var(--border);cursor:pointer;position:relative}
+.news-card{background:var(--card);border-radius:14px;padding:10px;display:flex;gap:12px;align-items:center;box-shadow:0 2px 8px rgba(0,0,0,.04);border:1px solid var(--border);cursor:pointer}
 .news-thumb{width:112px;height:82px;border-radius:10px;object-fit:cover;flex-shrink:0;background:#e2e8f0}
 .news-info{flex:1;min-width:0}
 .news-cat{font-size:11px;font-weight:800;color:var(--accent);text-transform:uppercase;margin-bottom:4px;letter-spacing:.4px}
@@ -80,26 +75,21 @@ header{background:var(--card);border-bottom:1px solid var(--border);position:sti
 .admin-mini button{background:none;border:none;font-size:12px;font-weight:600;color:#2563eb;cursor:pointer}
 .admin-mini .del{color:var(--red)}
 
-/* Footer */
 footer{max-width:760px;margin:24px auto 10px;padding:16px;text-align:center;font-size:12px;color:var(--sub);line-height:1.6}
 
-/* Nút cuộn lên đầu trang */
 .scroll-top{position:fixed;right:14px;bottom:82px;width:40px;height:40px;border-radius:50%;background:var(--navy);color:#fff;border:none;font-size:18px;box-shadow:0 4px 12px rgba(0,0,0,.25);cursor:pointer;z-index:25}
 
-/* Thanh Bottom Bar giống mẫu */
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--border);height:64px;display:flex;align-items:center;justify-content:space-around;z-index:30;box-shadow:0 -2px 10px rgba(0,0,0,.05)}
 .nav-item{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:11px;font-weight:600;color:var(--sub);background:none;border:none;cursor:pointer;flex:1}
 .nav-item.active{color:var(--red)}
 .nav-item span.ico{font-size:18px}
 .nav-center{width:54px;height:54px;border-radius:50%;background:var(--navy);border:3px solid var(--accent);color:#fbbf24;display:flex;align-items:center;justify-content:center;font-size:20px;margin-top:-24px;box-shadow:0 4px 12px rgba(0,0,0,.3);cursor:pointer}
 
-/* Drawer Chuyên mục */
 .cat-bar{display:none;flex-wrap:wrap;gap:8px;margin-bottom:14px;background:var(--card);padding:12px;border-radius:12px;border:1px solid var(--border)}
 .cat-bar.on{display:flex}
 .cat-chip{padding:6px 12px;border-radius:20px;font-size:12px;font-weight:700;background:var(--bg);color:var(--text);border:1px solid var(--border);cursor:pointer}
 .cat-chip.on{background:var(--navy);color:#fbbf24;border-color:var(--navy)}
 
-/* Modal Chi tiết & Đăng bài */
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;padding:12px;z-index:100;backdrop-filter:blur(2px)}
 .modal.on{display:flex}
 .mc{background:var(--card);color:var(--text);border-radius:16px;width:100%;max-width:640px;max-height:92vh;overflow-y:auto;padding:20px;position:relative}
@@ -119,10 +109,11 @@ footer{max-width:760px;margin:24px auto 10px;padding:16px;text-align:center;font
 .save{background:var(--navy);color:#fbbf24;flex:2}
 .cancel{background:var(--border);color:var(--text)}
 
-.toast{position:fixed;bottom:80px;left:50%;transform:translate(-50%,80px);background:#10b981;color:#fff;padding:10px 18px;border-radius:20px;font-size:13px;font-weight:700;z-index:200;opacity:0;transition:.3s}
+.toast{position:fixed;bottom:80px;left:50%;transform:translate(-50%,80px);background:#10b981;color:#fff;padding:10px 18px;border-radius:20px;font-size:13px;font-weight:700;z-index:200;opacity:0;transition:.25s}
 .toast.on{transform:translate(-50%,0);opacity:1}
 .toast.err{background:var(--red)}
-.loading,.empty{text-align:center;padding:40px 20px;color:var(--sub)}
+.loading,.empty{text-align:center;padding:36px 20px;color:var(--sub)}
+.retry-btn{margin-top:12px;padding:8px 16px;border-radius:20px;background:var(--navy);color:#fbbf24;font-size:13px;font-weight:700;border:none;cursor:pointer}
 </style>
 </head>
 <body>
@@ -138,8 +129,8 @@ footer{max-width:760px;margin:24px auto 10px;padding:16px;text-align:center;font
       </div>
     </div>
     <div class="h-actions">
-      <button class="circle-btn" onclick="toggleSearch()" title="Tìm kiếm">🔍</button>
-      <button class="circle-btn" onclick="toggleCatBar()" title="Chuyên mục">☰</button>
+      <button class="circle-btn" id="hdrSearchBtn" onclick="toggleSearch()" title="Tìm kiếm">🔍</button>
+      <button class="circle-btn" id="hdrCatBtn" onclick="toggleCatBar()" title="Chuyên mục">☰</button>
       <button class="circle-btn" id="adminBtn" onclick="toggleAdmin()" title="Quản trị">🔒</button>
     </div>
   </div>
@@ -151,16 +142,13 @@ footer{max-width:760px;margin:24px auto 10px;padding:16px;text-align:center;font
 <div class="wrap">
   <div class="cat-bar" id="catBar"></div>
 
-  <!-- Khối 3 tin điểm mới nhất -->
   <div class="highlight-box" id="highlightBox" style="display:none"></div>
 
-  <!-- Tiêu đề mục TIN MỚI -->
   <div class="sec-head">
     <div class="sec-title" id="secTitle">TIN MỚI</div>
     <button class="sec-more" onclick="resetHome()">XEM TẤT CẢ →</button>
   </div>
 
-  <!-- Danh sách thẻ bài viết có ảnh -->
   <div class="news-list" id="listContainer">
     <div class="loading">Đang tải dữ liệu...</div>
   </div>
@@ -171,30 +159,28 @@ footer{max-width:760px;margin:24px auto 10px;padding:16px;text-align:center;font
   <p>Quản trị &amp; Biên tập: <strong>tin tức 24h</strong></p>
 </footer>
 
-<button class="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+<button class="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Lên đầu trang">↑</button>
 
-<!-- Thanh điều hướng dưới đáy -->
 <nav class="bottom-nav">
-  <button class="nav-item active" onclick="resetHome()">
+  <button class="nav-item active" id="navHome" onclick="resetHome()">
     <span class="ico">🏠</span>
     <span>Trang chủ</span>
   </button>
-  <button class="nav-item" onclick="resetHome()">
+  <button class="nav-item" id="navLatest" onclick="resetHome()">
     <span class="ico">📰</span>
     <span>Tin mới</span>
   </button>
-  <button class="nav-center" id="centerBtn" onclick="handleCenterBtn()" title="Tiện ích / Đăng bài">🛡️</button>
-  <button class="nav-item" onclick="toggleSearch()">
+  <button class="nav-center" id="centerBtn" onclick="handleCenterBtn()" title="Đổi giao diện / Đăng bài">🛡️</button>
+  <button class="nav-item" id="navSearch" onclick="toggleSearch(true)">
     <span class="ico">🔍</span>
     <span>Tìm kiếm</span>
   </button>
-  <button class="nav-item" onclick="toggleCatBar()">
+  <button class="nav-item" id="navCat" onclick="toggleCatBar(true)">
     <span class="ico">☰</span>
     <span>Chuyên mục</span>
   </button>
 </nav>
 
-<!-- Editor Modal -->
 <div class="modal" id="editorModal">
   <div class="mc">
     <button class="x" onclick="closeEditor()">×</button>
@@ -213,7 +199,6 @@ footer{max-width:760px;margin:24px auto 10px;padding:16px;text-align:center;font
   </div>
 </div>
 
-<!-- Detail Modal -->
 <div class="modal" id="detailModal">
   <div class="mc">
     <button class="x" onclick="closeDetail()">×</button>
@@ -226,10 +211,17 @@ footer{max-width:760px;margin:24px auto 10px;padding:16px;text-align:center;font
 <script>
 const SUPABASE_URL = "https://mvadddkyhgmaarghmjrf.supabase.co"; 
 const SUPABASE_KEY = "sb_publishable_LdSwKw0rBKlEQgi1JJdlUQ_s_v4YcFh";
-const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
 const CATS = ['Thời sự','Công nghệ','Kinh tế','Thể thao','Giải trí','Sức khỏe','Giáo dục'];
 const DEFAULT_IMG = "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=400&q=80";
+
+let supabaseClient = null;
+try {
+  if (window.supabase && typeof window.supabase.createClient === 'function') {
+    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  }
+} catch (e) {
+  console.error("Supabase init error:", e);
+}
 
 let newsData = [];
 let filterCat = 'all', query = '', editingId = null, viewId = null;
@@ -244,6 +236,12 @@ function toast(msg, err){
   t.className = 'toast on'+(err?' err':'');
   clearTimeout(toastT);
   toastT = setTimeout(()=>t.className='toast'+(err?' err':''), 2500);
+}
+
+function setActiveNav(id){
+  document.querySelectorAll('.bottom-nav .nav-item').forEach(el=>el.classList.remove('active'));
+  const target = document.getElementById(id);
+  if(target) target.classList.add('active');
 }
 
 function toggleAdmin() {
@@ -272,6 +270,7 @@ function toggleAdmin() {
 function updateAdminUI() {
   document.getElementById('adminBtn').textContent = isAdmin ? '🔓' : '🔒';
   document.getElementById('centerBtn').textContent = isAdmin ? '✍️' : '🛡️';
+  document.getElementById('centerBtn').title = isAdmin ? 'Đăng bài mới' : 'Đổi chế độ Sáng/Tối';
 }
 
 function handleCenterBtn(){
@@ -282,19 +281,37 @@ function handleCenterBtn(){
 if(localStorage.getItem('tt_theme')==='dark') document.body.classList.add('dark');
 function toggleTheme(){
   document.body.classList.toggle('dark');
-  localStorage.setItem('tt_theme', document.body.classList.contains('dark')?'dark':'light');
-  toast(document.body.classList.contains('dark') ? 'Đã bật chế độ tối' : 'Đã bật chế độ sáng');
+  const isDark = document.body.classList.contains('dark');
+  localStorage.setItem('tt_theme', isDark?'dark':'light');
+  toast(isDark ? 'Đã bật chế độ tối' : 'Đã bật chế độ sáng');
 }
 
-function toggleSearch(){
+function toggleSearch(fromNav){
   const sb = document.getElementById('searchBar');
-  sb.classList.toggle('on');
-  if(sb.classList.contains('on')) document.getElementById('q').focus();
+  const btn = document.getElementById('hdrSearchBtn');
+  if(fromNav && !sb.classList.contains('on')){
+    sb.classList.add('on');
+  } else if(!fromNav){
+    sb.classList.toggle('on');
+  }
+  btn.classList.toggle('active', sb.classList.contains('on'));
+  setActiveNav(sb.classList.contains('on') ? 'navSearch' : 'navHome');
+  if(sb.classList.contains('on')){
+    window.scrollTo({top:0,behavior:'smooth'});
+    setTimeout(()=>document.getElementById('q').focus(), 120);
+  }
 }
 
-function toggleCatBar(){
+function toggleCatBar(fromNav){
   const cb = document.getElementById('catBar');
-  cb.classList.toggle('on');
+  const btn = document.getElementById('hdrCatBtn');
+  if(fromNav && !cb.classList.contains('on')){
+    cb.classList.add('on');
+  } else if(!fromNav){
+    cb.classList.toggle('on');
+  }
+  btn.classList.toggle('active', cb.classList.contains('on'));
+  setActiveNav(cb.classList.contains('on') ? 'navCat' : 'navHome');
   renderCats();
 }
 
@@ -317,6 +334,7 @@ function resetHome(){
   query = '';
   document.getElementById('q').value = '';
   document.getElementById('secTitle').textContent = 'TIN MỚI';
+  setActiveNav('navHome');
   renderCats();
   render();
   window.scrollTo({top:0,behavior:'smooth'});
@@ -325,22 +343,41 @@ function resetHome(){
 document.getElementById('q').addEventListener('input', e=>{ query=e.target.value.trim(); render(); });
 
 async function fetchNews() {
-  const { data, error } = await supabaseClient
-    .from('news')
-    .select('*')
-    .order('created_at', { ascending: false });
+  const container = document.getElementById('listContainer');
+  container.innerHTML = `<div class="loading">Đang tải dữ liệu...</div>`;
 
-  if (error) {
-    toast('Lỗi tải dữ liệu: ' + error.message, true);
-    document.getElementById('listContainer').innerHTML = `<div class="empty">Lỗi kết nối máy chủ.</div>`;
+  if (!supabaseClient) {
+    container.innerHTML = `<div class="empty">Không khởi tạo được kết nối cơ sở dữ liệu.<br><button class="retry-btn" onclick="fetchNews()">🔄 Thử tải lại</button></div>`;
     return;
   }
-  newsData = data || [];
-  render();
+
+  const timer = setTimeout(() => {
+    if (!newsData.length) {
+      container.innerHTML = `<div class="empty">Tải dữ liệu mất nhiều thời gian hơn dự kiến.<br><button class="retry-btn" onclick="fetchNews()">🔄 Tải lại ngay</button></div>`;
+    }
+  }, 8000);
+
+  try {
+    const { data, error } = await supabaseClient
+      .from('news')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    clearTimeout(timer);
+    if (error) {
+      toast('Lỗi tải dữ liệu: ' + error.message, true);
+      container.innerHTML = `<div class="empty">Lỗi kết nối: ${esc(error.message)}<br><button class="retry-btn" onclick="fetchNews()">🔄 Thử lại</button></div>`;
+      return;
+    }
+    newsData = Array.isArray(data) ? data : [];
+    render();
+  } catch (err) {
+    clearTimeout(timer);
+    container.innerHTML = `<div class="empty">Lỗi mạng khi tải bài viết.<br><button class="retry-btn" onclick="fetchNews()">🔄 Thử lại</button></div>`;
+  }
 }
 
 function render(){
-  // 1. Render khối 3 tin nổi bật trên cùng
   const hlBox = document.getElementById('highlightBox');
   if(newsData.length > 0 && filterCat === 'all' && !query){
     const top3 = newsData.slice(0, 3);
@@ -355,12 +392,11 @@ function render(){
     hlBox.style.display = 'none';
   }
 
-  // 2. Lọc danh sách chính
   let list = newsData;
   if(filterCat!=='all') list = list.filter(n=>n.category===filterCat);
   if(query){
     const q = query.toLowerCase();
-    list = list.filter(n=>n.title.toLowerCase().includes(q)||(n.content||'').toLowerCase().includes(q));
+    list = list.filter(n=>(n.title||'').toLowerCase().includes(q)||(n.content||'').toLowerCase().includes(q));
   }
 
   const container = document.getElementById('listContainer');
@@ -382,7 +418,7 @@ function render(){
       <div class="news-card" onclick="openDetail(${n.id})">
         <img class="news-thumb" src="${esc(imgUrl)}" onerror="this.src='${DEFAULT_IMG}'" alt="">
         <div class="news-info">
-          <div class="news-cat">${esc(n.category)}</div>
+          <div class="news-cat">${esc(n.category || 'Tin tức')}</div>
           <div class="news-title">${esc(n.title)}</div>
           ${adminBtns}
         </div>
@@ -397,12 +433,13 @@ function openEditor(id){
   document.getElementById('fCat').innerHTML = CATS.map(c=>`<option>${c}</option>`).join('');
   if(id){
     const p = newsData.find(n=>n.id===id);
+    if(!p) return;
     document.getElementById('eTitle').textContent = '✏️ Sửa bài viết';
     document.getElementById('saveBtn').textContent = '💾 Lưu thay đổi';
-    document.getElementById('fTitle').value = p.title;
-    document.getElementById('fCat').value = p.category;
-    document.getElementById('fContent').value = p.content;
-    document.getElementById('fImg').value = p.image||'';
+    document.getElementById('fTitle').value = p.title || '';
+    document.getElementById('fCat').value = p.category || CATS[0];
+    document.getElementById('fContent').value = p.content || '';
+    document.getElementById('fImg').value = p.image || '';
   } else {
     document.getElementById('eTitle').textContent = '✍️ Đăng bài mới';
     document.getElementById('saveBtn').textContent = '🚀 Đăng ngay';
@@ -419,6 +456,9 @@ function closeEditor(){
 }
 
 async function savePost(){
+  if(!isAdmin) return toast('Cần đăng nhập Admin!', true);
+  if(!supabaseClient) return toast('Lỗi kết nối cơ sở dữ liệu!', true);
+
   const title = document.getElementById('fTitle').value.trim();
   const category = document.getElementById('fCat').value;
   const content = document.getElementById('fContent').value.trim();
@@ -442,9 +482,9 @@ function openDetail(id){
   const p = newsData.find(n=>n.id===id);
   if(!p) return;
   viewId = id;
-  const d = new Date(p.created_at);
+  const d = p.created_at ? new Date(p.created_at) : new Date();
   document.getElementById('detailBox').innerHTML = `
-    <span class="tag">${esc(p.category)}</span>
+    <span class="tag">${esc(p.category || 'Tin tức')}</span>
     <h1>${esc(p.title)}</h1>
     <div class="info"><span>🕒 ${d.toLocaleString('vi-VN')}</span><span>✍️ Biên tập: tin tức 24h</span></div>
     ${p.image ? `<img src="${esc(p.image)}" onerror="this.style.display='none'">` : ''}
@@ -453,4 +493,31 @@ function openDetail(id){
   document.getElementById('detailModal').classList.add('on');
 }
 
-function cl
+function closeDetail(){
+  document.getElementById('detailModal').classList.remove('on');
+  viewId = null;
+}
+
+async function delPost(id){
+  if(!isAdmin || !supabaseClient) return;
+  if(!confirm('Xóa bài viết này?')) return;
+  const { error } = await supabaseClient.from('news').delete().eq('id', id);
+  if(error) return toast('Lỗi xóa: '+error.message, true);
+  toast('Đã xóa bài');
+  fetchNews();
+}
+
+['editorModal','detailModal'].forEach(id=>{
+  document.getElementById(id).addEventListener('click', e=>{
+    if(e.target.id===id){
+      if(id==='editorModal') closeEditor(); else closeDetail();
+    }
+  });
+});
+
+updateAdminUI();
+fetchNews();
+</script>
+</body>
+</html>
+    
