@@ -4,140 +4,208 @@
 <meta name="google-site-verification" content="PTLdtpejB4Vo4oVmI0pxF3O1HMfiBegNPSqCEu5hv7Q" />
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>TinTuc24h - Cập nhật tin tức mới nhất 24/7</title>
-<meta name="description" content="TinTuc24h - Chuyên trang tổng hợp và cập nhật tin tức Thời sự, Công nghệ, Kinh tế, Thể thao, Giải trí, Sức khỏe, Giáo dục mới nhất.">
+<title>TinTuc24h - Tạp chí điện tử & Tin tức mới nhất 24/7</title>
+<meta name="description" content="TinTuc24h - Tạp chí điện tử tổng hợp thông tin, xu hướng Thời sự, Công nghệ, Kinh tế, Thể thao, Giải trí, Sức khỏe, Giáo dục mới nhất.">
 <meta name="author" content="tin tức 24h">
 <link rel="canonical" href="https://tintuc24h-vn.netlify.app/">
 <meta property="og:type" content="website">
-<meta property="og:title" content="TinTuc24h - Cập nhật tin tức mới nhất 24/7">
-<meta property="og:description" content="Chuyên trang cập nhật tin tức Thời sự, Công nghệ, Kinh tế, Thể thao, Giải trí mới nhất.">
+<meta property="og:title" content="TinTuc24h - Tạp chí điện tử & Tin tức mới nhất 24/7">
+<meta property="og:description" content="Tạp chí điện tử cập nhật tin tức Thời sự, Công nghệ, Kinh tế, Thể thao, Giải trí mới nhất.">
 <meta property="og:url" content="https://tintuc24h-vn.netlify.app/">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
+:root{
+  --bg:#f4f5f7;
+  --card:#ffffff;
+  --text:#1e293b;
+  --sub:#64748b;
+  --accent:#d97706;
+  --red:#dc2626;
+  --navy:#0f172a;
+  --border:#e2e8f0;
+}
+body.dark{
+  --bg:#0b1120;
+  --card:#1e293b;
+  --text:#f1f5f9;
+  --sub:#94a3b8;
+  --border:#334155;
+}
 *{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,-apple-system,sans-serif}
-body{background:#fff;color:#202124;transition:.3s}
-body.dark{background:#0f172a;color:#f1f5f9}
-header{background:linear-gradient(135deg,#e63946,#c1121f);color:#fff;padding:12px;position:sticky;top:0;z-index:10;box-shadow:0 2px 10px rgba(0,0,0,.1)}
-.row{max-width:800px;margin:0 auto;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.logo{font-size:20px;font-weight:800}
-.logo span{color:#ffe066}
-.search{flex:1;min-width:150px;padding:10px 16px;border:none;border-radius:24px;font-size:14px;outline:none;box-shadow:0 1px 6px rgba(32,33,36,.28)}
-button{cursor:pointer;border:none;font-family:inherit}
-.btn{background:#ffe066;color:#c1121f;padding:9px 16px;border-radius:20px;font-weight:700;font-size:13px}
-.icon{background:rgba(255,255,255,.2);color:#fff;width:36px;height:36px;border-radius:50%;font-size:16px}
+body{background:var(--bg);color:var(--text);padding-bottom:84px;transition:.25s}
 
-.wrap{max-width:800px;margin:0 auto;padding:20px 16px}
+/* Header giống mẫu tạp chí */
+header{background:var(--card);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:20;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.h-inner{max-width:760px;margin:0 auto;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.brand{display:flex;align-items:center;gap:10px;cursor:pointer}
+.brand-badge{width:38px;height:38px;border-radius:50%;background:radial-gradient(circle,#fffbeb,#fef3c7);border:2px solid var(--accent);display:flex;align-items:center;justify-content:center;font-weight:900;color:var(--navy);font-size:15px}
+.brand-divider{width:2px;height:28px;background:var(--accent)}
+.brand-text h1{font-size:18px;font-weight:900;letter-spacing:.5px;color:var(--text);display:flex;align-items:center;gap:4px}
+.brand-text h1 span{background:var(--red);color:#fff;font-size:10px;padding:2px 5px;border-radius:4px;font-weight:800}
+.brand-text p{font-size:9px;font-weight:700;color:var(--accent);letter-spacing:.6px;text-transform:uppercase;margin-top:1px}
+.h-actions{display:flex;align-items:center;gap:8px}
+.circle-btn{width:36px;height:36px;border-radius:50%;border:1px solid var(--border);background:var(--card);color:var(--text);display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer}
 
-/* Giao diện Danh sách giống Google */
-.list-container{display:flex;flex-direction:column;gap:24px}
-.list-item{padding-bottom:20px;border-bottom:1px solid #ebebeb}
-body.dark .list-item{border-color:#334155}
-.list-source{display:flex;align-items:center;gap:8px;margin-bottom:6px}
-.source-icon{width:26px;height:26px;border-radius:50%;background:#e63946;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:bold}
-.source-name{font-size:14px;color:#202124}
-body.dark .source-name{color:#cbd5e1}
-.source-url{font-size:12px;color:#4d5156;margin-left:auto}
-.list-title{font-size:20px;color:#1a0dab;cursor:pointer;margin-bottom:4px;line-height:1.3;font-weight:400}
-body.dark .list-title{color:#8ab4f8}
-.list-title:hover{text-decoration:underline}
-.list-snippet{font-size:14px;color:#4d5156;line-height:1.58}
-body.dark .list-snippet{color:#94a3b8}
-.list-actions{margin-top:8px;display:flex;gap:12px}
-.list-actions button{background:none;color:#1a73e8;font-size:13px;font-weight:500}
-.list-actions button:hover{text-decoration:underline}
-.list-actions .del{color:#d93025}
-body.dark .list-actions .del{color:#f87171}
+/* Thanh tìm kiếm trượt */
+.search-bar{max-width:760px;margin:0 auto;padding:0 14px 10px;display:none}
+.search-bar.on{display:block}
+.search-bar input{width:100%;padding:10px 14px;border-radius:20px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:14px;outline:none}
 
-.empty{text-align:center;padding:50px 20px;color:#888}
-.loading{text-align:center;padding:40px;font-size:16px;color:#888}
+/* Khung nội dung chính */
+.wrap{max-width:760px;margin:0 auto;padding:14px}
+
+/* Khối tin điểm (Bullet box) */
+.highlight-box{background:var(--card);border-radius:14px;padding:14px 16px;box-shadow:0 2px 10px rgba(0,0,0,.04);margin-bottom:20px;border:1px solid var(--border)}
+.hl-item{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px dashed var(--border);cursor:pointer}
+.hl-item:last-child{border-bottom:none;padding-bottom:0}
+.hl-item:first-child{padding-top:0}
+.hl-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);margin-top:7px;flex-shrink:0}
+.hl-title{font-size:14px;font-weight:600;line-height:1.4;color:var(--text)}
+.hl-title:hover{color:var(--accent)}
+
+/* Tiêu đề chuyên mục | TIN MỚI */
+.sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.sec-title{display:flex;align-items:center;gap:8px;font-size:16px;font-weight:800;text-transform:uppercase;color:var(--text)}
+.sec-title::before{content:"";width:4px;height:18px;background:var(--accent);border-radius:2px}
+.sec-more{font-size:12px;font-weight:700;color:var(--accent);background:none;border:none;cursor:pointer}
+
+/* Danh sách thẻ bài viết có ảnh thumbnail bên trái */
+.news-list{display:flex;flex-direction:column;gap:12px}
+.news-card{background:var(--card);border-radius:14px;padding:10px;display:flex;gap:12px;align-items:center;box-shadow:0 2px 8px rgba(0,0,0,.04);border:1px solid var(--border);cursor:pointer;position:relative}
+.news-thumb{width:112px;height:82px;border-radius:10px;object-fit:cover;flex-shrink:0;background:#e2e8f0}
+.news-info{flex:1;min-width:0}
+.news-cat{font-size:11px;font-weight:800;color:var(--accent);text-transform:uppercase;margin-bottom:4px;letter-spacing:.4px}
+.news-title{font-size:15px;font-weight:700;line-height:1.35;color:var(--text);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.admin-mini{margin-top:6px;display:flex;gap:10px}
+.admin-mini button{background:none;border:none;font-size:12px;font-weight:600;color:#2563eb;cursor:pointer}
+.admin-mini .del{color:var(--red)}
 
 /* Footer */
-footer{max-width:800px;margin:24px auto 20px;padding:18px 16px;border-top:1px solid #e2e8f0;text-align:center;font-size:13px;color:#64748b;line-height:1.6}
-body.dark footer{border-color:#334155;color:#94a3b8}
-footer strong{color:#202124}
-body.dark footer strong{color:#f1f5f9}
+footer{max-width:760px;margin:24px auto 10px;padding:16px;text-align:center;font-size:12px;color:var(--sub);line-height:1.6}
 
-/* Modal & Form */
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;padding:16px;z-index:100;backdrop-filter:blur(2px)}
+/* Nút cuộn lên đầu trang */
+.scroll-top{position:fixed;right:14px;bottom:82px;width:40px;height:40px;border-radius:50%;background:var(--navy);color:#fff;border:none;font-size:18px;box-shadow:0 4px 12px rgba(0,0,0,.25);cursor:pointer;z-index:25}
+
+/* Thanh Bottom Bar giống mẫu */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--border);height:64px;display:flex;align-items:center;justify-content:space-around;z-index:30;box-shadow:0 -2px 10px rgba(0,0,0,.05)}
+.nav-item{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:11px;font-weight:600;color:var(--sub);background:none;border:none;cursor:pointer;flex:1}
+.nav-item.active{color:var(--red)}
+.nav-item span.ico{font-size:18px}
+.nav-center{width:54px;height:54px;border-radius:50%;background:var(--navy);border:3px solid var(--accent);color:#fbbf24;display:flex;align-items:center;justify-content:center;font-size:20px;margin-top:-24px;box-shadow:0 4px 12px rgba(0,0,0,.3);cursor:pointer}
+
+/* Drawer Chuyên mục */
+.cat-bar{display:none;flex-wrap:wrap;gap:8px;margin-bottom:14px;background:var(--card);padding:12px;border-radius:12px;border:1px solid var(--border)}
+.cat-bar.on{display:flex}
+.cat-chip{padding:6px 12px;border-radius:20px;font-size:12px;font-weight:700;background:var(--bg);color:var(--text);border:1px solid var(--border);cursor:pointer}
+.cat-chip.on{background:var(--navy);color:#fbbf24;border-color:var(--navy)}
+
+/* Modal Chi tiết & Đăng bài */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;padding:12px;z-index:100;backdrop-filter:blur(2px)}
 .modal.on{display:flex}
-.mc{background:#fff;color:#222;border-radius:14px;width:100%;max-width:640px;max-height:92vh;overflow-y:auto;padding:22px;position:relative}
-body.dark .mc{background:#1e293b;color:#f1f5f9}
-.mc h2{color:#e63946;margin-bottom:14px;font-size:20px}
-.x{position:absolute;top:10px;right:10px;background:#f1f1f1;color:#666;width:32px;height:32px;border-radius:50%;font-size:20px}
-body.dark .x{background:#334155;color:#cbd5e1}
-.fg{margin-bottom:12px}
-label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
-input[type=text],select,textarea{width:100%;padding:10px 12px;border:2px solid #e2e8f0;border-radius:8px;font-size:14px;outline:none;font-family:inherit;background:#f8f9fa;color:inherit}
-body.dark input,body.dark select,body.dark textarea{background:#0f172a;border-color:#334155}
-input:focus,select:focus,textarea:focus{border-color:#e63946}
-textarea{resize:vertical;min-height:150px;line-height:1.5}
-.mact{display:flex;gap:8px;margin-top:16px}
-.mact button{flex:1;padding:12px;border-radius:8px;font-weight:700;font-size:14px}
-.save{background:linear-gradient(135deg,#e63946,#c1121f);color:#fff;flex:2}
-.cancel{background:#e2e8f0;color:#444}
-body.dark .cancel{background:#334155;color:#cbd5e1}
-.detail img{width:100%;border-radius:10px;margin-bottom:12px;max-height:300px;object-fit:cover}
-.detail .tag{display:inline-block;background:#e63946;color:#fff;padding:3px 10px;border-radius:5px;font-size:11px;font-weight:700;margin-bottom:8px}
-.detail h1{font-size:22px;line-height:1.35;margin-bottom:10px;color:#1a0dab}
-body.dark .detail h1{color:#8ab4f8}
-.detail .info{font-size:12px;color:#888;display:flex;gap:12px;flex-wrap:wrap;padding-bottom:12px;margin-bottom:14px;border-bottom:2px solid #f1f1f1}
-.detail .body{font-size:15px;line-height:1.7;white-space:pre-wrap;word-break:break-word}
+.mc{background:var(--card);color:var(--text);border-radius:16px;width:100%;max-width:640px;max-height:92vh;overflow-y:auto;padding:20px;position:relative}
+.x{position:absolute;top:12px;right:12px;background:var(--bg);color:var(--text);width:32px;height:32px;border-radius:50%;border:none;font-size:20px;cursor:pointer}
+.detail .tag{display:inline-block;background:var(--accent);color:#fff;padding:3px 10px;border-radius:5px;font-size:11px;font-weight:800;margin-bottom:8px;text-transform:uppercase}
+.detail h1{font-size:21px;line-height:1.35;margin-bottom:10px}
+.detail .info{font-size:12px;color:var(--sub);display:flex;gap:12px;padding-bottom:10px;margin-bottom:14px;border-bottom:1px solid var(--border)}
+.detail img{width:100%;border-radius:10px;margin-bottom:14px;max-height:320px;object-fit:cover}
+.detail .body{font-size:15px;line-height:1.75;white-space:pre-wrap}
 
-.toast{position:fixed;bottom:20px;left:50%;transform:translate(-50%,100px);background:#10b981;color:#fff;padding:12px 20px;border-radius:10px;font-weight:600;font-size:13px;z-index:200;transition:.3s;opacity:0}
+.fg{margin-bottom:12px}
+.fg label{display:block;font-size:13px;font-weight:700;margin-bottom:5px}
+.fg input,.fg select,.fg textarea{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:10px;font-size:14px;background:var(--bg);color:var(--text);outline:none}
+.fg textarea{min-height:150px;resize:vertical}
+.mact{display:flex;gap:8px;margin-top:14px}
+.mact button{flex:1;padding:12px;border-radius:10px;font-weight:700;border:none;cursor:pointer}
+.save{background:var(--navy);color:#fbbf24;flex:2}
+.cancel{background:var(--border);color:var(--text)}
+
+.toast{position:fixed;bottom:80px;left:50%;transform:translate(-50%,80px);background:#10b981;color:#fff;padding:10px 18px;border-radius:20px;font-size:13px;font-weight:700;z-index:200;opacity:0;transition:.3s}
 .toast.on{transform:translate(-50%,0);opacity:1}
-.toast.err{background:#ef4444}
-.fab{display:none;position:fixed;bottom:20px;right:20px;width:56px;height:56px;border-radius:50%;background:#e63946;color:#fff;font-size:28px;z-index:50;box-shadow:0 6px 20px rgba(230,57,70,.5)}
-@media(max-width:600px){
-  .row .btn{display:none}
-  .fab{display:flex;align-items:center;justify-content:center}
-  .modal{padding:0}
-  .mc{border-radius:0;max-height:100vh;min-height:100vh;padding:18px}
-  .detail h1, .list-title{font-size:18px}
-}
+.toast.err{background:var(--red)}
+.loading,.empty{text-align:center;padding:40px 20px;color:var(--sub)}
 </style>
 </head>
 <body>
 
 <header>
-  <div class="row">
-    <div class="logo">TinTuc<span>24h</span></div>
-    <input class="search" id="q" placeholder="🔍 Tìm bài viết...">
-    <button class="icon" id="themeBtn" onclick="toggleTheme()">🌙</button>
-    <button class="icon" id="adminBtn" onclick="toggleAdmin()" title="Quản trị viên">🔒</button>
-    <button class="btn" id="newPostBtn" onclick="openEditor()" style="display:none">✍️ Đăng bài</button>
+  <div class="h-inner">
+    <div class="brand" onclick="resetHome()">
+      <div class="brand-badge">24H</div>
+      <div class="brand-divider"></div>
+      <div class="brand-text">
+        <h1>TINTUC24H <span>VN</span></h1>
+        <p>Tạp chí điện tử • Thông tin &amp; Xu hướng</p>
+      </div>
+    </div>
+    <div class="h-actions">
+      <button class="circle-btn" onclick="toggleSearch()" title="Tìm kiếm">🔍</button>
+      <button class="circle-btn" onclick="toggleCatBar()" title="Chuyên mục">☰</button>
+      <button class="circle-btn" id="adminBtn" onclick="toggleAdmin()" title="Quản trị">🔒</button>
+    </div>
+  </div>
+  <div class="search-bar" id="searchBar">
+    <input id="q" placeholder="Nhập từ khóa tìm kiếm bài viết...">
   </div>
 </header>
 
 <div class="wrap">
-  <div id="listContainer" class="list-container">
-     <div class="loading">Đang tải dữ liệu...</div>
+  <div class="cat-bar" id="catBar"></div>
+
+  <!-- Khối 3 tin điểm mới nhất -->
+  <div class="highlight-box" id="highlightBox" style="display:none"></div>
+
+  <!-- Tiêu đề mục TIN MỚI -->
+  <div class="sec-head">
+    <div class="sec-title" id="secTitle">TIN MỚI</div>
+    <button class="sec-more" onclick="resetHome()">XEM TẤT CẢ →</button>
+  </div>
+
+  <!-- Danh sách thẻ bài viết có ảnh -->
+  <div class="news-list" id="listContainer">
+    <div class="loading">Đang tải dữ liệu...</div>
   </div>
 </div>
 
 <footer>
-  <p><strong>TinTuc24h</strong> — Chuyên trang tổng hợp và chia sẻ thông tin</p>
+  <p><strong>TinTuc24h</strong> — Tạp chí điện tử tổng hợp thông tin &amp; xu hướng</p>
   <p>Quản trị &amp; Biên tập: <strong>tin tức 24h</strong></p>
 </footer>
 
-<button class="fab" id="fabBtn" onclick="openEditor()" style="display:none">+</button>
+<button class="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<!-- Thanh điều hướng dưới đáy -->
+<nav class="bottom-nav">
+  <button class="nav-item active" onclick="resetHome()">
+    <span class="ico">🏠</span>
+    <span>Trang chủ</span>
+  </button>
+  <button class="nav-item" onclick="resetHome()">
+    <span class="ico">📰</span>
+    <span>Tin mới</span>
+  </button>
+  <button class="nav-center" id="centerBtn" onclick="handleCenterBtn()" title="Tiện ích / Đăng bài">🛡️</button>
+  <button class="nav-item" onclick="toggleSearch()">
+    <span class="ico">🔍</span>
+    <span>Tìm kiếm</span>
+  </button>
+  <button class="nav-item" onclick="toggleCatBar()">
+    <span class="ico">☰</span>
+    <span>Chuyên mục</span>
+  </button>
+</nav>
 
 <!-- Editor Modal -->
 <div class="modal" id="editorModal">
   <div class="mc">
     <button class="x" onclick="closeEditor()">×</button>
-    <h2 id="eTitle">✍️ Đăng bài mới</h2>
-    <div class="fg"><label>Tiêu đề *</label><input type="text" id="fTitle" maxlength="200" placeholder="Nhập tiêu đề..."></div>
+    <h2 id="eTitle" style="margin-bottom:12px">✍️ Đăng bài mới</h2>
+    <div class="fg"><label>Tiêu đề *</label><input type="text" id="fTitle" placeholder="Nhập tiêu đề..."></div>
     <div class="fg"><label>Danh mục</label><select id="fCat"></select></div>
-    <div class="fg"><label>Link ảnh minh họa (tùy chọn)</label><input type="text" id="fImg" placeholder="https://..."></div>
-    
+    <div class="fg"><label>Link ảnh minh họa</label><input type="text" id="fImg" placeholder="https://..."></div>
     <div class="fg">
-      <label style="display:flex; justify-content:space-between; align-items:center;">
-        Nội dung * 
-        <button onclick="aiWrite()" style="background:#8b5cf6; color:#fff; padding:6px 12px; border-radius:20px; font-size:12px; font-weight:bold; border:none; box-shadow:0 2px 6px rgba(139,92,246,.4)">🪄 AI Viết Bài</button>
-      </label>
-      <textarea id="fContent" placeholder="Nhập nội dung hoặc để AI viết..."></textarea>
+      <label>Nội dung *</label>
+      <textarea id="fContent" placeholder="Nhập nội dung bài viết..."></textarea>
     </div>
-    
     <div class="mact">
       <button class="cancel" onclick="closeEditor()">Hủy</button>
       <button class="save" id="saveBtn" onclick="savePost()">🚀 Đăng ngay</button>
@@ -156,24 +224,31 @@ body.dark .detail h1{color:#8ab4f8}
 <div class="toast" id="toast"></div>
 
 <script>
-// --- CHÌA KHÓA AI CỦA BẠN ---
-const GEMINI_API_KEY = "AQ.Ab8RN6INXS06n51SyfQIGIsRzH2EPEmZQGt2V25DO5VoQLvXww"; 
-
-// --- DATABASE ---
 const SUPABASE_URL = "https://mvadddkyhgmaarghmjrf.supabase.co"; 
 const SUPABASE_KEY = "sb_publishable_LdSwKw0rBKlEQgi1JJdlUQ_s_v4YcFh";
-
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
 const CATS = ['Thời sự','Công nghệ','Kinh tế','Thể thao','Giải trí','Sức khỏe','Giáo dục'];
+const DEFAULT_IMG = "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=400&q=80";
+
 let newsData = [];
 let filterCat = 'all', query = '', editingId = null, viewId = null;
-
-// --- QUẢN LÝ ADMIN ---
 let isAdmin = localStorage.getItem('tt_admin') === 'true';
+
+function esc(s){ return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+let toastT;
+function toast(msg, err){
+  const t = document.getElementById('toast');
+  t.textContent = (err?'⚠️ ':'✅ ')+msg;
+  t.className = 'toast on'+(err?' err':'');
+  clearTimeout(toastT);
+  toastT = setTimeout(()=>t.className='toast'+(err?' err':''), 2500);
+}
 
 function toggleAdmin() {
   if (isAdmin) {
-    if(confirm('Bạn có muốn đăng xuất khỏi quyền Admin?')) {
+    if(confirm('Đăng xuất quyền Admin?')) {
       isAdmin = false;
       localStorage.removeItem('tt_admin');
       updateAdminUI();
@@ -196,95 +271,133 @@ function toggleAdmin() {
 
 function updateAdminUI() {
   document.getElementById('adminBtn').textContent = isAdmin ? '🔓' : '🔒';
-  document.getElementById('newPostBtn').style.display = isAdmin ? 'block' : 'none';
-  document.getElementById('fabBtn').style.display = isAdmin ? 'flex' : 'none';
+  document.getElementById('centerBtn').textContent = isAdmin ? '✍️' : '🛡️';
 }
 
-function esc(s){ return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
-
-let toastT;
-function toast(msg, err){
-  const t = document.getElementById('toast');
-  t.textContent = (err?'⚠️ ':'✅ ')+msg;
-  t.className = 'toast on'+(err?' err':'');
-  clearTimeout(toastT);
-  toastT = setTimeout(()=>t.className='toast'+(err?' err':''), 2500);
+function handleCenterBtn(){
+  if(isAdmin) openEditor();
+  else toggleTheme();
 }
 
 if(localStorage.getItem('tt_theme')==='dark') document.body.classList.add('dark');
 function toggleTheme(){
   document.body.classList.toggle('dark');
   localStorage.setItem('tt_theme', document.body.classList.contains('dark')?'dark':'light');
-  updateThemeBtn();
+  toast(document.body.classList.contains('dark') ? 'Đã bật chế độ tối' : 'Đã bật chế độ sáng');
 }
-function updateThemeBtn(){ document.getElementById('themeBtn').textContent = document.body.classList.contains('dark')?'☀️':'🌙'; }
-updateThemeBtn();
+
+function toggleSearch(){
+  const sb = document.getElementById('searchBar');
+  sb.classList.toggle('on');
+  if(sb.classList.contains('on')) document.getElementById('q').focus();
+}
+
+function toggleCatBar(){
+  const cb = document.getElementById('catBar');
+  cb.classList.toggle('on');
+  renderCats();
+}
+
+function renderCats(){
+  const all = ['all', ...CATS];
+  document.getElementById('catBar').innerHTML = all.map(c=>`
+    <button class="cat-chip ${filterCat===c?'on':''}" onclick="selectCat('${c}')">${c==='all'?'Tất cả':c}</button>
+  `).join('');
+}
+
+function selectCat(c){
+  filterCat = c;
+  document.getElementById('secTitle').textContent = c === 'all' ? 'TIN MỚI' : c.toUpperCase();
+  renderCats();
+  render();
+}
+
+function resetHome(){
+  filterCat = 'all';
+  query = '';
+  document.getElementById('q').value = '';
+  document.getElementById('secTitle').textContent = 'TIN MỚI';
+  renderCats();
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+document.getElementById('q').addEventListener('input', e=>{ query=e.target.value.trim(); render(); });
 
 async function fetchNews() {
-  document.getElementById('listContainer').innerHTML = `<div class="loading">Đang tải dữ liệu từ Server...</div>`;
   const { data, error } = await supabaseClient
     .from('news')
     .select('*')
     .order('created_at', { ascending: false });
 
   if (error) {
-    console.error(error);
     toast('Lỗi tải dữ liệu: ' + error.message, true);
-    document.getElementById('listContainer').innerHTML = `<div class="empty">Lỗi kết nối Server.</div>`;
+    document.getElementById('listContainer').innerHTML = `<div class="empty">Lỗi kết nối máy chủ.</div>`;
     return;
   }
-  newsData = data;
+  newsData = data || [];
   render();
 }
 
 function render(){
+  // 1. Render khối 3 tin nổi bật trên cùng
+  const hlBox = document.getElementById('highlightBox');
+  if(newsData.length > 0 && filterCat === 'all' && !query){
+    const top3 = newsData.slice(0, 3);
+    hlBox.style.display = 'block';
+    hlBox.innerHTML = top3.map(n=>`
+      <div class="hl-item" onclick="openDetail(${n.id})">
+        <span class="hl-dot"></span>
+        <div class="hl-title">${esc(n.title)}</div>
+      </div>
+    `).join('');
+  } else {
+    hlBox.style.display = 'none';
+  }
+
+  // 2. Lọc danh sách chính
   let list = newsData;
   if(filterCat!=='all') list = list.filter(n=>n.category===filterCat);
-  if(query){ const q=query.toLowerCase(); list = list.filter(n=>n.title.toLowerCase().includes(q)||(n.content||'').toLowerCase().includes(q)); }
+  if(query){
+    const q = query.toLowerCase();
+    list = list.filter(n=>n.title.toLowerCase().includes(q)||(n.content||'').toLowerCase().includes(q));
+  }
 
   const container = document.getElementById('listContainer');
   if(!list.length){
-    container.innerHTML = `<div class="empty"><div style="font-size:40px">📭</div><h3>Chưa có bài viết nào</h3></div>`;
+    container.innerHTML = `<div class="empty">📭 Chưa có bài viết nào</div>`;
     return;
   }
-  
-  container.innerHTML = list.map(n=>{
-    const d = new Date(n.created_at);
-    const timeStr = d.toLocaleString('vi-VN');
-    const snippet = n.content.length > 160 ? n.content.substring(0, 160) + '...' : n.content;
 
-    const adminActions = isAdmin ? `
-      <div class="list-actions">
-        <button onclick="openEditor(${n.id})">✏️ Sửa bài</button>
+  container.innerHTML = list.map(n=>{
+    const imgUrl = n.image && n.image.trim() ? n.image : DEFAULT_IMG;
+    const adminBtns = isAdmin ? `
+      <div class="admin-mini" onclick="event.stopPropagation()">
+        <button onclick="openEditor(${n.id})">✏️ Sửa</button>
         <button class="del" onclick="delPost(${n.id})">🗑️ Xóa</button>
       </div>
     ` : '';
 
     return `
-    <div class="list-item">
-      <div class="list-source">
-        <div class="source-icon">T</div>
-        <span class="source-name">TinTuc24h - ${n.category}</span>
-        <span class="source-url">tintuc24h-vn.netlify.app</span>
+      <div class="news-card" onclick="openDetail(${n.id})">
+        <img class="news-thumb" src="${esc(imgUrl)}" onerror="this.src='${DEFAULT_IMG}'" alt="">
+        <div class="news-info">
+          <div class="news-cat">${esc(n.category)}</div>
+          <div class="news-title">${esc(n.title)}</div>
+          ${adminBtns}
+        </div>
       </div>
-      <h3 class="list-title" onclick="openDetail(${n.id})">${esc(n.title)}</h3>
-      <div class="list-snippet">${timeStr} — ${esc(snippet)}</div>
-      ${adminActions}
-    </div>
     `;
   }).join('');
 }
 
-document.getElementById('q').addEventListener('input', e=>{ query=e.target.value.trim(); render(); });
-
 function openEditor(id){
-  if(!isAdmin) return toast('Bạn cần đăng nhập Admin!', true);
+  if(!isAdmin) return toast('Cần đăng nhập Admin!', true);
   editingId = id||null;
   document.getElementById('fCat').innerHTML = CATS.map(c=>`<option>${c}</option>`).join('');
-  
   if(id){
     const p = newsData.find(n=>n.id===id);
-    document.getElementById('eTitle').textContent = '✏️ Sửa bài';
+    document.getElementById('eTitle').textContent = '✏️ Sửa bài viết';
     document.getElementById('saveBtn').textContent = '💾 Lưu thay đổi';
     document.getElementById('fTitle').value = p.title;
     document.getElementById('fCat').value = p.category;
@@ -298,51 +411,11 @@ function openEditor(id){
     document.getElementById('fImg').value = '';
   }
   document.getElementById('editorModal').classList.add('on');
-  document.body.style.overflow = 'hidden';
-  setTimeout(()=>document.getElementById('fTitle').focus(), 100);
 }
 
 function closeEditor(){
   document.getElementById('editorModal').classList.remove('on');
-  document.body.style.overflow = '';
   editingId = null;
-}
-
-// --- HÀM GỌI AI VIẾT BÀI ---
-async function aiWrite() {
-  const title = document.getElementById('fTitle').value.trim();
-  const cat = document.getElementById('fCat').value;
-  const contentBox = document.getElementById('fContent');
-
-  if(!title) return toast('Vui lòng nhập Tiêu đề trước để AI biết cần viết gì!', true);
-
-  contentBox.value = "⏳ AI đang suy nghĩ và viết bài, vui lòng đợi...";
-  contentBox.disabled = true;
-
-  const prompt = `Bạn là một phóng viên viết báo chuyên nghiệp. Hãy viết một bài báo bằng tiếng Việt với tiêu đề sau: "${title}". Chuyên mục: ${cat}. Bài viết cần có mở bài, thân bài và kết bài rõ ràng, độ dài khoảng 3-4 đoạn văn. Giọng văn khách quan, chuyên nghiệp.`;
-
-  try {
-    const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-goog-api-key": GEMINI_API_KEY
-      },
-      body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
-    });
-
-    const data = await response.json();
-    if(data.error) throw new Error(data.error.message);
-
-    const aiText = data.candidates[0].content.parts[0].text;
-    contentBox.value = aiText;
-    toast('AI đã viết xong bài!');
-  } catch (error) {
-    contentBox.value = "";
-    toast('Lỗi AI: ' + error.message, true);
-  } finally {
-    contentBox.disabled = false;
-  }
 }
 
 async function savePost(){
@@ -350,24 +423,17 @@ async function savePost(){
   const category = document.getElementById('fCat').value;
   const content = document.getElementById('fContent').value.trim();
   const image = document.getElementById('fImg').value.trim();
+  if(!title || !content) return toast('Nhập đủ tiêu đề và nội dung!', true);
 
-  if(!title) return toast('Nhập tiêu đề!', true);
-  if(!content) return toast('Nhập nội dung!', true);
-
-  document.getElementById('saveBtn').textContent = '⏳ Đang lưu...';
   document.getElementById('saveBtn').disabled = true;
-
   if(editingId){
     const { error } = await supabaseClient.from('news').update({ title, category, content, image }).eq('id', editingId);
-    if(error) toast('Lỗi: '+error.message, true); else toast('Đã lưu thay đổi!');
+    if(error) toast('Lỗi: '+error.message, true); else toast('Đã cập nhật!');
   } else {
     const { error } = await supabaseClient.from('news').insert([{ title, category, content, image }]);
-    if(error) toast('Lỗi: '+error.message, true); else toast('Đăng thành công!');
+    if(error) toast('Lỗi: '+error.message, true); else toast('Đã đăng bài!');
   }
-
-  document.getElementById('saveBtn').textContent = editingId ? '💾 Lưu thay đổi' : '🚀 Đăng ngay';
   document.getElementById('saveBtn').disabled = false;
-  
   closeEditor();
   fetchNews();
 }
@@ -378,52 +444,13 @@ function openDetail(id){
   viewId = id;
   const d = new Date(p.created_at);
   document.getElementById('detailBox').innerHTML = `
-    ${p.image ? `<img src="${p.image}" onerror="this.style.display='none'">` : ''}
-    <span class="tag">${p.category}</span>
+    <span class="tag">${esc(p.category)}</span>
     <h1>${esc(p.title)}</h1>
     <div class="info"><span>🕒 ${d.toLocaleString('vi-VN')}</span><span>✍️ Biên tập: tin tức 24h</span></div>
+    ${p.image ? `<img src="${esc(p.image)}" onerror="this.style.display='none'">` : ''}
     <div class="body">${esc(p.content)}</div>
   `;
   document.getElementById('detailModal').classList.add('on');
-  document.body.style.overflow = 'hidden';
 }
 
-function closeDetail(){
-  document.getElementById('detailModal').classList.remove('on');
-  document.body.style.overflow = '';
-  viewId = null;
-}
-
-async function delPost(id){
-  if(!isAdmin) return toast('Bạn cần đăng nhập Admin!', true);
-  const p = newsData.find(n=>n.id===id);
-  if(!p) return;
-  if(!confirm(`Xóa bài:\n"${p.title}"?`)) return;
-  
-  const { error } = await supabaseClient.from('news').delete().eq('id', id);
-  if(error) return toast('Lỗi khi xóa: '+error.message, true);
-  
-  toast('Đã xóa bài viết');
-  if(viewId===id) closeDetail();
-  fetchNews();
-}
-
-['editorModal','detailModal'].forEach(id=>{
-  document.getElementById(id).addEventListener('click', e=>{
-    if(e.target.id===id){
-      if(id==='editorModal') closeEditor(); else closeDetail();
-    }
-  });
-});
-document.addEventListener('keydown', e=>{
-  if(e.key==='Escape'){
-    if(document.getElementById('editorModal').classList.contains('on')) closeEditor();
-    else if(document.getElementById('detailModal').classList.contains('on')) closeDetail();
-  }
-});
-
-updateAdminUI();
-fetchNews();
-</script>
-</body>
-</html>
+function cl
